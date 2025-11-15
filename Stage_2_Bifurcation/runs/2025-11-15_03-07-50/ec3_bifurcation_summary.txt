@@ -1,0 +1,12 @@
+EC3 Bifurcation Scan Summary
+========================================
+A_min = 0.2
+A_max = 1.4
+nA    = 61
+ngrid = 7
+
+A values with 3 equilibria (bistable window):
+0.860, 0.880, 0.900, 0.920, 0.940, 0.960, 0.980, 1.000, 1.020, 1.040, 1.060
+
+A_three_min = 0.8600000000000001
+A_three_max = 1.06

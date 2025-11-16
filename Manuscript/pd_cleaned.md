@@ -422,7 +422,7 @@ When included, the nonlinear term interacts with load-dependent consumption and 
 2. A low-energy fixed point,
 3. A saddle separating their basins.
 
-**Supplementary Figure S3. Effect of nonlinear energy amplification on nullcline geometry.**
+![Supplementary Figure S3. Effect of nonlinear energy amplification on nullcline geometry.](/Stage_S3_NonlinearAmplification/latest_run/supp_S3_nonlinear_amplification_nullclines.png) **Supplementary Figure S3. Effect of nonlinear energy amplification on nullcline geometry.**
 Including the nonlinear term $k_2 E^2(1-E)$ generates a folded energy nullcline that, together with the mitochondrial nullcline, produces three intersections corresponding to two stable equilibria and a saddle. Removing this term collapses the fold and eliminates bistability.
 
 ---

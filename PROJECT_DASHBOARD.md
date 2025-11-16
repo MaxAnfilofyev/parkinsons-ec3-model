@@ -5,11 +5,11 @@
 
 ✓ Stage 2 — Saddle-Node Diagram: Complete
 
-⏳ Stage 3 — Phase Planes: In progress
+✓ Stage 3 — Phase Planes: Complete
 
-⏳ Stage 4 — Time Courses: In progress
+✓ Stage 4 — Time Courses: Complete
 
-⬜ Stage 5 — Manuscript Draft
+⬜ Stage 5 — Manuscript - Complete
 
 ## Latest Runs
 Stage 1 latest → Stage_1_EC3_Model/latest_run/

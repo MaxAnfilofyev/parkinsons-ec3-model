@@ -1,5 +1,9 @@
 # Parkinson's energetic collapse project dependencies
-# Requires Python >= 3.7 (due to dataclasses usage)
+# Python >= 3.7 is required (for dataclasses in several modules under code/)
+# External libraries inferred from imports in code/:
+# - numpy: numerical arrays and math
+# - scipy: ODE integration and root finding (scipy.integrate, scipy.optimize)
+# - matplotlib: plotting of figures
 
 numpy>=1.15.0
 scipy>=1.1.0

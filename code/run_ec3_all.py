@@ -1,4 +1,5 @@
 import os
+import shutil
 import csv
 import textwrap
 import datetime
@@ -7,7 +8,38 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import root
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+# Global plotting style for manuscript-quality figures
+mpl.rcParams.update({
+    "font.size": 9,
+    "axes.labelsize": 9,
+    "axes.titlesize": 9,
+    "legend.fontsize": 8,
+    "xtick.labelsize": 8,
+    "ytick.labelsize": 8,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+})
+
+# Canonical colors used throughout the EC3 figures
+COLOR_VTA = "#1f77b4"       # VTA-like condition (blue)
+COLOR_SNC = "#ff7f0e"       # SNc-like condition (orange)
+COLOR_NULLCLINE = "#4b0082"  # Nullclines / bifurcation branches (dark purple)
+
+
+def new_panel(figsize=(3.3, 2.0), panel_label=None):
+    """Create a new figure/axes pair with optional panel label.
+
+    Using a helper keeps figure sizing and panel labelling
+    consistent across all EC3 plots.
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+    if panel_label is not None:
+        ax.text(0.02, 0.95, panel_label, transform=ax.transAxes,
+                fontweight="bold", va="top")
+    return fig, ax
 
 
 # ============================================================
@@ -29,10 +61,17 @@ def make_stage_run_dir(stage_name: str, timestamp: str) -> str:
     os.makedirs(run_dir, exist_ok=True)
 
     latest_link = os.path.join(stage_dir, "latest_run")
-    # Remove existing symlink or file
-    if os.path.islink(latest_link) or os.path.exists(latest_link):
+    # Remove any existing latest_run so we can recreate it as a symlink
+    if os.path.islink(latest_link) or os.path.isfile(latest_link):
+        # Symlink or regular file
         try:
             os.remove(latest_link)
+        except OSError:
+            pass
+    elif os.path.isdir(latest_link):
+        # A real directory (e.g., from older versions or manual creation)
+        try:
+            shutil.rmtree(latest_link)
         except OSError:
             pass
 
@@ -269,6 +308,11 @@ def save_summary_txt(summary: dict, filename: str):
 # ============================================================
 
 def plot_bifurcation_E_vs_A(data_rows, filename: str):
+    """Plot steady-state energy E* as a function of axonal load A.
+
+    Stable, saddle, and unstable equilibria are shown with consistent
+    colors and markers for use in the main manuscript bifurcation figure.
+    """
     A_stable, E_stable = [], []
     A_saddle, E_saddle = [], []
     A_unstable, E_unstable = [], []
@@ -284,24 +328,37 @@ def plot_bifurcation_E_vs_A(data_rows, filename: str):
             A_unstable.append(row["A"])
             E_unstable.append(row["E"])
 
-    plt.figure(figsize=(7, 4))
+    fig, ax = new_panel(figsize=(3.3, 2.0))
+
     if A_stable:
-        plt.scatter(A_stable, E_stable, s=20, marker="o", label="stable")
-    if A_saddle:
-        plt.scatter(A_saddle, E_saddle, s=30, marker="x", label="saddle")
+        ax.scatter(A_stable, E_stable, s=18, marker="o",
+                   color=COLOR_NULLCLINE, label="stable")
     if A_unstable:
-        plt.scatter(A_unstable, E_unstable, s=20, marker="^", label="unstable")
+        ax.scatter(A_unstable, E_unstable, s=18, marker="o",
+                   facecolors="none", edgecolors=COLOR_NULLCLINE,
+                   label="unstable")
+    if A_saddle:
+        ax.scatter(A_saddle, E_saddle, s=24, marker="x",
+                   color="red", label="saddle")
 
-    plt.xlabel("A (axonal load)")
-    plt.ylabel("E* (steady-state energy)")
-    plt.title("EC3 Bifurcation Diagram: E* vs A")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(filename, dpi=300)
-    plt.close()
+    ax.set_xlabel("Axonal load A")
+    ax.set_ylabel("Steady-state energy E*")
+    ax.set_xlim(0.2, 1.4)
+    ax.set_ylim(0.0, 1.0)
+
+    ax.legend(frameon=False, loc="best")
+
+    fig.tight_layout()
+    fig.savefig(filename, dpi=300)
+    plt.close(fig)
 
 
-def make_phase_plane_plot(p: PDParamsEC3, A_value: float, filename: str, title_suffix: str):
+def make_phase_plane_plot(p: PDParamsEC3,
+                          A_value: float,
+                          filename: str,
+                          title_suffix: str,
+                          panel_label: str | None = None):
+    """Plot phase plane (E, M) with vector field, nullclines, and trajectories."""
     pA = p.with_A(A_value)
 
     E_vals = np.linspace(0, 1, 25)
@@ -321,32 +378,36 @@ def make_phase_plane_plot(p: PDParamsEC3, A_value: float, filename: str, title_s
     dE_unit = dE_grid / speed
     dM_unit = dM_grid / speed
 
-    plt.figure(figsize=(7, 6))
-    plt.quiver(EE, MM, dE_unit, dM_unit, alpha=0.4, linewidth=0.3)
+    fig, ax = new_panel(figsize=(3.0, 3.0), panel_label=panel_label)
+    ax.quiver(EE, MM, dE_unit, dM_unit, color="#bfbfbf", alpha=0.6,
+              linewidth=0.3)
 
+    # Nullclines
     try:
-        cs1 = plt.contour(EE, MM, dE_grid, levels=[0.0],
-                          linestyles="solid", linewidths=1.5)
-        cs1.collections[0].set_label("dE/dt=0")
+        ax.contour(EE, MM, dE_grid, levels=[0.0],
+                   linestyles="solid", linewidths=1.5,
+                   colors=COLOR_NULLCLINE)
     except Exception:
         pass
 
     try:
-        cs2 = plt.contour(EE, MM, dM_grid, levels=[0.0],
-                          linestyles="dashed", linewidths=1.5)
-        cs2.collections[0].set_label("dM/dt=0")
+        ax.contour(EE, MM, dM_grid, levels=[0.0],
+                   linestyles="dashed", linewidths=1.5,
+                   colors=COLOR_NULLCLINE)
     except Exception:
         pass
 
+    # Equilibria markers
     eqs = find_equilibria(pA, ngrid=9)
     for (E_star, M_star, label) in eqs:
         if label == "stable":
-            plt.scatter(E_star, M_star, c="black", s=45, marker="o")
+            ax.scatter(E_star, M_star, c="black", s=45, marker="o")
         elif label == "saddle":
-            plt.scatter(E_star, M_star, c="red", s=50, marker="x")
+            ax.scatter(E_star, M_star, c="red", s=50, marker="x")
         else:
-            plt.scatter(E_star, M_star, c="grey", s=40, marker="^")
+            ax.scatter(E_star, M_star, c="grey", s=40, marker="^")
 
+    # Sample trajectories
     initials = [
         (0.05, 0.2),
         (0.2, 0.8),
@@ -364,16 +425,17 @@ def make_phase_plane_plot(p: PDParamsEC3, A_value: float, filename: str, title_s
             max_step=0.5,
             dense_output=False,
         )
-        plt.plot(sol.y[0, :], sol.y[1, :], linewidth=0.8)
+        ax.plot(sol.y[0, :], sol.y[1, :], linewidth=0.9)
 
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-    plt.xlabel("E (energy)")
-    plt.ylabel("M (mitochondrial capacity)")
-    plt.title(f"EC3 Phase Plane at A = {A_value:.2f} ({title_suffix})")
-    plt.tight_layout()
-    plt.savefig(filename, dpi=300)
-    plt.close()
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_xlabel("E (energy)")
+    ax.set_ylabel("M (mitochondrial capacity)")
+    ax.set_title(f"A = {A_value:.2f} ({title_suffix})")
+
+    fig.tight_layout()
+    fig.savefig(filename, dpi=300)
+    plt.close(fig)
 
 
 def simulate_timecourse(p: PDParamsEC3, A_value: float, y0, t_end=300, n_points=2000):
@@ -505,6 +567,7 @@ if __name__ == "__main__":
         A_VTA,
         os.path.join(run_dir_stage3, "phase_plane_VTA_A_0.40.png"),
         title_suffix="VTA-like (low load, monostable)",
+        panel_label="A",
     )
 
     make_phase_plane_plot(
@@ -512,6 +575,7 @@ if __name__ == "__main__":
         A_SNc,
         os.path.join(run_dir_stage3, "phase_plane_SNc_A_1.00.png"),
         title_suffix="SNc-like (high load, bistable)",
+        panel_label="B",
     )
 
     write_readme(
@@ -534,35 +598,37 @@ if __name__ == "__main__":
     # STAGE 4: TIME COURSES & PERTURBATIONS
     # --------------------------------------------------------
     # Baseline timecourses (no perturbation)
-    y0_common = [0.9, 0.9] # Start near high-energy state
+    y0_common = [0.9, 0.9]  # Start near high-energy state
 
     t_vta, y_vta = simulate_timecourse(p_base, A_VTA, y0_common)
     t_snc, y_snc = simulate_timecourse(p_base, A_SNc, y0_common)
 
-    plt.figure(figsize=(7, 4))
+    fig, ax = new_panel(figsize=(3.3, 2.0), panel_label="A")
     # Baseline curves
-    plt.plot(t_vta, y_vta[0, :], label="VTA baseline (A=0.40)", linewidth=2)
-    plt.plot(t_snc, y_snc[0, :], label="SNc baseline (A=1.00)", linewidth=2)
-    
-    # Compute (or manually set) equilibria for dashed reference lines
-    # If you already know them: 
-    # E_vta_eq = 0.767   # example
-    # E_snc_eq = 0.565   # example
+    ax.plot(t_vta, y_vta[0, :], color=COLOR_VTA,
+            label="VTA-like, A = 0.40", linewidth=1.8)
+    ax.plot(t_snc, y_snc[0, :], color=COLOR_SNC,
+            label="SNc-like, A = 1.00", linewidth=1.8)
+
+    # Compute equilibria for dashed reference lines
     E_vta_eq = y_vta[0, -1]
     E_snc_eq = y_snc[0, -1]
     # Faint dashed horizontal lines at equilibria
-    plt.axhline(E_vta_eq, color="blue", linestyle="--", alpha=0.3)
-    plt.axhline(E_snc_eq, color="orange", linestyle="--", alpha=0.3)
+    ax.axhline(E_vta_eq, color=COLOR_VTA, linestyle="--", alpha=0.3)
+    ax.axhline(E_snc_eq, color=COLOR_SNC, linestyle="--", alpha=0.3)
 
-    plt.xlabel("t (a.u.)")
-    plt.ylabel("E(t)")
-    plt.title("Baseline Time Courses: VTA vs SNc")
-    plt.legend()
-    plt.tight_layout()
-    plt.ylim(0, 0.8)
-    plt.savefig(os.path.join(run_dir_stage4, "timecourses_VTA_vs_SNc_baseline.png"),
-                dpi=300)
-    plt.close()
+    ax.set_xlabel("Time t (a.u.)")
+    ax.set_ylabel("Energetic reserve E(t)")
+    ax.set_xlim(0, 300)
+    ax.set_ylim(0, 0.8)
+    ax.legend(frameon=False, loc="lower right")
+
+    fig.tight_layout()
+    fig.savefig(
+        os.path.join(run_dir_stage4, "timecourses_VTA_vs_SNc_baseline.png"),
+        dpi=300,
+    )
+    plt.close(fig)
 
     save_timecourse_csv(
         os.path.join(run_dir_stage4, "timecourse_VTA_baseline.csv"),
@@ -591,19 +657,26 @@ if __name__ == "__main__":
     )
 
     # Plot SNc collapse vs VTA recovery in one panel
-    plt.figure(figsize=(7, 4))
-    plt.plot(t_vta_pert, y_vta_pert[0, :], label="VTA (A=0.40) with perturbation")
-    plt.plot(t_snc_pert, y_snc_pert[0, :], label="SNc (A=1.00) with perturbation")
-    plt.axvline(50.0, color="k", linestyle="--", linewidth=0.8, label="perturbation")
-    plt.xlabel("t (a.u.)")
-    plt.ylabel("E(t)")
-    plt.ylim(0, 0.8)
-    plt.title("Perturbation: SNc Collapse vs VTA Recovery")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(os.path.join(run_dir_stage4, "timecourses_SNc_vs_VTA_perturbation.png"),
-                dpi=300)
-    plt.close()
+    fig, ax = new_panel(figsize=(3.3, 2.0), panel_label="B")
+    ax.plot(t_vta_pert, y_vta_pert[0, :], color=COLOR_VTA,
+            label="VTA-like (perturbed)", linewidth=1.8)
+    ax.plot(t_snc_pert, y_snc_pert[0, :], color=COLOR_SNC,
+            label="SNc-like (perturbed)", linewidth=1.8)
+    ax.axvline(50.0, color="k", linestyle="--", linewidth=0.8,
+               label="insult at t = 50")
+
+    ax.set_xlabel("Time t (a.u.)")
+    ax.set_ylabel("Energetic reserve E(t)")
+    ax.set_xlim(0, 300)
+    ax.set_ylim(0, 0.8)
+    ax.legend(frameon=False, loc="lower right")
+
+    fig.tight_layout()
+    fig.savefig(
+        os.path.join(run_dir_stage4, "timecourses_SNc_vs_VTA_perturbation.png"),
+        dpi=300,
+    )
+    plt.close(fig)
 
     save_timecourse_csv(
         os.path.join(run_dir_stage4, "timecourse_SNc_perturbation.csv"),

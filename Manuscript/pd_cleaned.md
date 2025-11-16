@@ -162,7 +162,7 @@ flowchart LR
 **Figure 2A. Conceptual energy landscape illustrating bistability under structural load.**
 The minimal energetic model predicts two coexisting stable states separated by a saddle (tipping boundary). The upper basin corresponds to a healthy, high-energy attractor, while the lower basin represents an energetically collapsed state. Small perturbations within the healthy basin are restored, whereas sufficiently large perturbations cross the separatrix and drive the system into the collapsed attractor. Increasing axonal load $A$ shifts the saddle leftward and shrinks the healthy basin. VTA neurons, which experience low load, lie deep within the healthy basin; SNc neurons, under high load, lie near the saddle and are therefore vulnerable to tipping into collapse.[15–17,21–23](#references)
 
-![Figure 2B. Phase portrait of the minimal energetic model at a load level representative of substantia nigra dopaminergic neurons ($A = 0.96$)](/Stage_3_PhasePlanes/runs/2025-11-14_22-34-11/ec3_phase_plane_A_0.96.png)**Figure 2B. Phase portrait at a substantia nigra–like load ($A = 0.96$).**
+![Figure 2B. Phase portrait of the minimal energetic model at a load level representative of substantia nigra dopaminergic neurons ($A = 1$)](/Stage_3_PhasePlanes/latest_run/phase_plane_SNc_A_1.00.png)**Figure 2B. Phase portrait at a substantia nigra–like load ($A = 1$).**
 Grey arrows show the vector field in the $(E,M)$ plane. The solid purple curve denotes the energy nullcline ($\frac{dE}{dt}=0$), forming an S-shaped curve with two folds, and the dashed purple curve denotes the mitochondrial nullcline ($\frac{dM}{dt}=0$). Their intersections yield three equilibria: a high-energy stable fixed point (upper black dot), a low-energy stable fixed point (lower black dot), and an intermediate saddle (red cross). Colored trajectories illustrate that initial conditions on one side of the saddle’s stable manifold converge to the healthy high-energy attractor, whereas those on the other side collapse into the low-energy state. This phase-plane geometry provides a concrete dynamical realization of the conceptual landscape in Figure 2A and shows that SNc-like loads place the system inside a load-induced tipping regime.[21–23](#references)
 
 This geometry is the mathematical signature of a **tipping point**: a minimal energetic failure mode that emerges directly from load-dependent energy consumption and energy-dependent mitochondrial stress.[21–23](#references) In subsequent sections, we show that ventral tegmental area neurons reside far from this fold, while substantia nigra neurons sit near it, making them uniquely susceptible to collapse.[15–17](#references)
@@ -465,8 +465,6 @@ This means that once the system collapses into the low-energy attractor, reducin
 1. The irreversibility of SNc collapse,
 2. Why pruning does not rescue already failing neurons,
 3. Why collapse proceeds inexorably once initiated.[15–17,21–23](#references)
-
-![](/outputs/supplement_full_bifurcation.png)
 
 **Supplementary Figure S7. Full continuation of equilibria showing right fold beyond biological range.**
 The complete bifurcation diagram reveals a right-hand fold at axonal loads larger than those observed in dopaminergic neurons, implying that the collapsed low-energy state remains stable throughout the physiological range of $A$.

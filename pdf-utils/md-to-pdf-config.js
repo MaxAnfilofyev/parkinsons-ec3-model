@@ -14,7 +14,7 @@ module.exports = {
     script: [
 		{ url: 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js' },
 		{ content: 'mermaid.initialize({ startOnLoad: false}); (async () => { await mermaid.run(); })();' },
-		{url: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'},
+		{url: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML'},
 		{content: 'MathJax.Hub.Config({ extensions: ["tex2jax.js"], jax: ["input/TeX", "output/HTML-CSS"], tex2jax: { inlineMath: [ ["$","$"], ["\\\\(","\\\\)"] ], displayMath: [ ["$$","$$"], ["\\\\[","\\\\]"] ], }, "HTML-CSS": { availableFonts: ["TeX"] } });'}
 
 	],

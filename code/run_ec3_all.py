@@ -621,7 +621,7 @@ if __name__ == "__main__":
     ax.set_ylabel("Energetic reserve E(t)")
     ax.set_xlim(0, 300)
     ax.set_ylim(0, 0.8)
-    ax.legend(frameon=False, loc="lower right")
+    ax.legend(frameon=False, loc="center right")
 
     fig.tight_layout()
     fig.savefig(
@@ -669,7 +669,7 @@ if __name__ == "__main__":
     ax.set_ylabel("Energetic reserve E(t)")
     ax.set_xlim(0, 300)
     ax.set_ylim(0, 0.8)
-    ax.legend(frameon=False, loc="lower right")
+    ax.legend(frameon=False, loc="center right")
 
     fig.tight_layout()
     fig.savefig(

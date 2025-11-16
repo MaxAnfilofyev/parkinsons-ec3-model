@@ -4,7 +4,6 @@ from scipy.integrate import solve_ivp
 from scipy.optimize import root
 import matplotlib.pyplot as plt
 import csv
-import math
 import textwrap
 
 # ============================================================
@@ -511,11 +510,11 @@ if __name__ == "__main__":
             (Add short notes here manually later)
             """)
     
-    latest = "Stage_2_Bifurcation/latest_run"
+    # Update or create a latest_run symlink for this stage directory
+    stage_dir = os.path.dirname(os.path.dirname(run_dir))
+    latest = os.path.join(stage_dir, "latest_run")
 
     if os.path.islink(latest) or os.path.exists(latest):
         os.remove(latest)
 
     os.symlink(run_dir, latest, target_is_directory=True)
-
-

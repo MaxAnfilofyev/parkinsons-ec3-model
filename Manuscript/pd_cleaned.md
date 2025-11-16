@@ -389,7 +389,7 @@ The simplest architecture consisted of:
 
 In this system, the energy nullcline is monotonic for all parameter values, and the mitochondrial nullcline intersects it **exactly once** within the biologically relevant domain. The vector field analysis confirmed global convergence to a unique fixed point. No choice of axonal load $A$, even when increased far beyond anatomical ranges, produced a second intersection.
 
-**Supplementary Figure S1. Nullclines and vector field for an earlier, monostable model variant.**
+![Supplementary Figure S1. Nullclines and vector field for an earlier, monostable model variant.](/Stage_S1_S2_EarlierVariants/latest_run/supp_S1_nullclines_monostable.png) **Supplementary Figure S1. Nullclines and vector field for an earlier, monostable model variant.**
 In a model with linear mitochondrial support and load effects but no nonlinear energy amplification, the energy and mitochondrial nullclines intersect only once in the physical domain. The vector field indicates global convergence to a single equilibrium for all tested values of $A$, demonstrating that this architecture cannot produce bistability.
 
 #### **S1.2 Second model variant: feedback mitochondrial impairment without nonlinear energy restoration**
@@ -400,7 +400,7 @@ The second architecture attempted to incorporate a biologically motivated feedba
 * The mitochondrial nullcline cut across it only once.
 * Bifurcation scans across a wide range of $A \in [0.1, 2.0]$ showed one stable equilibrium everywhere.
 
-**Supplementary Figure S2. Bifurcation scan for a feedback-only model lacking nonlinear energy amplification.**
+![Supplementary Figure S2. Bifurcation scan for a feedback-only model lacking nonlinear energy amplification.](/Stage_S1_S2_EarlierVariants/latest_run/supp_S2_bifurcation_feedback_only.png) **Supplementary Figure S2. Bifurcation scan for a feedback-only model lacking nonlinear energy amplification.**
 Even with feedback from energy to mitochondrial damage, the system exhibits only a single equilibrium across a broad range of axonal loads $A$. No saddle-node bifurcation appears, confirming that feedback alone is insufficient to generate bistability in this architecture.[21–23](#references)
 
 These results demonstrated that feedback alone is insufficient: to generate bistability, the model must produce a genuine **S-shaped energy nullcline** within the physical domain.

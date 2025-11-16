@@ -100,23 +100,21 @@ This parsimonious setup allows us to capture the qualitative behavior of dopamin
 
 ### **2.2 Equations and Qualitative Behavior**
 
-The dynamics of the system are described by two coupled differential equations governing the temporal evolution of energetic reserve $E(t)$ and mitochondrial functional capacity $M(t)$. Both variables are normalized to the interval $[0,1]$, with higher values reflecting greater energetic availability or mitochondrial robustness:
+The interaction between energetic reserve $E$ and mitochondrial capacity $M$ produces a **nonlinear energy landscape** whose qualitative structure depends critically on axonal arborization load $A$. At low load, the system exhibits a single high-energy equilibrium. As load increases, the energy nullcline deforms until it develops two turning points—a geometry that permits three intersections with the mitochondrial nullcline and therefore the coexistence of two stable states and a saddle.[21–23](#references)
 
-$$
-\frac{dE}{dt}
-= k_1 M(1-E) + k_2 E^2(1-E) - \left(L_0 + L_1 A C\right) E ,
-$$
+In the updated continuation analysis (Section 3), this fold structure emerges at a **left saddle-node** near $A \approx 0.86$, beyond which a **bistable window** appears. Within this window—the interval
+$$A \in [0.86, 1.06]$$
+—the system supports:
 
-$$
-\frac{dM}{dt}
-= k_M(1-M) - \beta A C M(1-E).
-$$
+1. a **high-energy attractor**,
+2. a **low-energy attractor**, and
+3. an **intervening saddle**, whose stable manifold forms the separatrix dividing their basins.
 
-The first term in the energy equation represents ATP production by functional mitochondria: as long as mitochondria are intact ($M$ large), they drive $E$ upward toward its maximum.[10–14,24,25](#references) The nonlinear term $k_2 E^2(1-E)$ captures activity-dependent amplification of energy availability, reflecting processes such as efficient pump operation, metabolic feedback, and cooperative mitochondrial behavior.[24,25](#references) The final term represents energy consumption, which increases with both arborization load $A$ and Ca²⁺-handling demand $C$, capturing the combined costs of maintaining large axonal arbors and pacemaking currents in SNc neurons.[1,3,5–9,15](#references)
+Below $A=0.86$, only the high-energy state exists; above $A=1.06$, only the low-energy state remains.
 
-The mitochondrial equation includes a repair-and-replacement term $k_M(1-M)$, counteracted by damage that occurs when high structural load (through $A$) and low energy (through $1-E$) coincide. This reflects the empirical observation that mitochondrial stress in dopaminergic neurons is strongly dependent on the combination of Ca²⁺ influx, axonal maintenance, and energetic sufficiency.[10–14,15](#references)
+This structure explains why **VTA neurons** (arborization $A \approx 0.3$–$0.5$) are **monostable** and robust to perturbations, whereas **typical SNc neurons** ($A \approx 0.9$–$1.0$) operate **inside the bistable regime**, precariously near the saddle’s stable manifold. SNc “outliers” with very large arbors ($A \approx 1.0$–$1.1$) approach the **right fold**, where the high-energy and saddle equilibria annihilate, leaving collapse unavoidable under the model’s structure.
 
-Together, these interactions form a compact positive–negative feedback motif: mitochondria support energy; energy maintains mitochondria; loads destabilize both. Despite the simplicity of this architecture, the system exhibits **nonlinear geometric structure** characteristic of a saddle-node bifurcation.[21–23](#references)
+This establishes a clear dynamical principle: **axonal load determines whether the neuron lives in a monostable or bistable energetic regime**, setting the stage for the selective vulnerability explored in later sections.
 
 To illustrate the qualitative structure of the energy dynamics, Figure 2A shows a conceptual landscape representation of the system’s two attractors and the saddle separating them. The high-energy attractor corresponds to normal physiological operation, while the low-energy attractor represents an irreversible collapsed state. The saddle acts as the basin boundary: perturbations that remain on the healthy side of this boundary recover, whereas perturbations that cross it transition to the collapsed state. This geometric picture anticipates the mathematical structure revealed in the phase-plane analysis (Figure 2B) and highlights why neurons experiencing large structural loads, such as substantia nigra dopaminergic neurons, reside precariously close to the tipping boundary, whereas ventral tegmental area neurons lie far from the saddle and therefore exhibit robust recovery after metabolic or calcium-related stress.[15–17,21–23](#references)
 
@@ -133,11 +131,13 @@ flowchart LR
         H(( ))
     end
 
-    subgraph Saddle["Saddle (Tipping Boundary)"]
+    subgraph Saddle["Saddle 
+    (Tipping Boundary)"]
         S(( ))
     end
 
-    subgraph Collapsed["Low-Energy Attractor (Collapsed State)"]
+    subgraph Collapsed["Low-Energy Attractor 
+    (Collapsed State)"]
         C(( ))
     end
 
@@ -160,7 +160,7 @@ flowchart LR
 ```
 
 **Figure 2A. Conceptual energy landscape illustrating bistability under structural load.**
-The minimal energetic model predicts two coexisting stable states separated by a saddle (tipping boundary). The upper basin corresponds to a healthy, high-energy attractor, while the lower basin represents an energetically collapsed state. Small perturbations within the healthy basin are restored, whereas sufficiently large perturbations cross the separatrix and drive the system into the collapsed attractor. Increasing axonal load $A$ shifts the saddle leftward and shrinks the healthy basin. VTA neurons, which experience low load, lie deep within the healthy basin; SNc neurons, under high load, lie near the saddle and are therefore vulnerable to tipping into collapse.[15–17,21–23](#references)
+The minimal energetic model predicts two coexisting stable states separated by a saddle (tipping boundary). The upper basin corresponds to a healthy, high-energy attractor, while the lower basin represents an energetically collapsed state. Small perturbations within the healthy basin are restored, whereas sufficiently large perturbations cross the separatrix and drive the system into the collapsed attractor. Increasing axonal load $A$ shifts the saddle leftward and shrinks the healthy basin. VTA neurons, which experience low load, lie deep within the healthy basin; SNc neurons, under high load, lie near the saddle and are therefore vulnerable to tipping into collapse.[15–17,21–23](#references) Under the updated bifurcation structure, VTA neurons ($A \approx 0.3$–$0.5$) lie left of the saddle-node fold at $A \approx 0.86$, whereas SNc neurons ($A \approx 0.9$–$1.0$) lie inside the bistable window for which this landscape applies.
 
 ![Figure 2B. Phase portrait of the minimal energetic model at a load level representative of substantia nigra dopaminergic neurons ($A = 1$)](/Stage_3_PhasePlanes/latest_run/phase_plane_SNc_A_1.00.png)**Figure 2B. Phase portrait at a substantia nigra–like load ($A = 1$).**
 Grey arrows show the vector field in the $(E,M)$ plane. The solid purple curve denotes the energy nullcline ($\frac{dE}{dt}=0$), forming an S-shaped curve with two folds, and the dashed purple curve denotes the mitochondrial nullcline ($\frac{dM}{dt}=0$). Their intersections yield three equilibria: a high-energy stable fixed point (upper black dot), a low-energy stable fixed point (lower black dot), and an intermediate saddle (red cross). Colored trajectories illustrate that initial conditions on one side of the saddle’s stable manifold converge to the healthy high-energy attractor, whereas those on the other side collapse into the low-energy state. This phase-plane geometry provides a concrete dynamical realization of the conceptual landscape in Figure 2A and shows that SNc-like loads place the system inside a load-induced tipping regime.[21–23](#references)
@@ -171,33 +171,60 @@ This geometry is the mathematical signature of a **tipping point**: a minimal en
 
 ## **3. Bifurcation Analysis: Load-Driven Emergence of a Tipping Point**
 
-To determine how structural load shapes the energetic stability landscape, we performed a one-parameter continuation in the axonal arborization parameter $A$. For each value of $A$ between 0.2 and 1.4, we computed all steady states of the system and classified their stability by linearization, following standard dynamical-systems practice for saddle-node bifurcations.[21–23](#references) The resulting diagram (Figure 3) reveals a **saddle-node bifurcation** in the energy variable $E$, separating regions of monostability from regions in which two stable energetic states coexist.
+To determine how axonal arborization load shapes the neuron’s energetic stability, we performed a one-parameter continuation in the load parameter $A$ and computed all equilibria across the dopaminergic range. As shown in **Figure 3**, the system exhibits a **saddle-node bifurcation** in energetic reserve $E$, separating a low-load **monostable** regime from a higher-load **bistable** regime in which healthy- and collapsed-energy states coexist.
 
-<a id="figure_3"></a>![Figure 3. Saddle-node bifurcation of energetic reserve as a function of axonal load](/Stage_2_Bifurcation/latest_run/ec3_bifurcation_E_vs_A.png) **Figure 3. Saddle-node bifurcation of energetic reserve as a function of axonal load.**
-The steady-state energetic reserve $E^*$ is shown as a function of axonal load $A$. Solid markers indicate stable equilibria; crosses indicate unstable saddle points. At low structural load (left), the system is monostable, with a single high-energy attractor corresponding to VTA-like arborization levels. As $A$ increases, the energy nullcline deforms and a saddle-node bifurcation appears near $A \approx 0.86$, generating a low-energy stable state and an intermediate saddle. Between $A \approx 0.86$ and $A \approx 1.1$, the system becomes bistable, with coexisting healthy- and collapsed-energy attractors separated by the saddle’s stable manifold. Anatomically realistic SNc-like loads fall within this bistable window, whereas VTA-like loads lie to the left in the monostable regime, consistent with the selective vulnerability of SNc dopaminergic neurons.[1,3,15–17,21–23](#references)
+<a id="figure_3"></a>
+![Figure 3. Saddle-node bifurcation of energetic reserve as a function of axonal load](/Stage_S7_FullContinuation/latest_run/supp_S7_full_bifurcation_E_vs_A.png)
+**Figure 3. Saddle-node bifurcation of energetic reserve as a function of axonal load.**
+The steady-state energetic reserve $E^*$ is plotted as a function of axonal load $A$. Solid markers denote stable equilibria; crosses denote saddles. Vertical shaded bands indicate VTA-like loads ($A \approx 0.3–0.5$), typical SNc loads ($A \approx 0.9–1.0$), and the SNc high-outlier/uncertainty band ($A \approx 1.0–1.1$).
 
-At low structural load (left side of Figure 3), the system has a **single stable equilibrium** corresponding to a healthy, high-energy state. This monostable regime encompasses the range of arborization values typically associated with ventral tegmental area neurons.[1,3,15–17](#references) As $A$ increases, the energy nullcline bends downward, and at a critical load value near $A \approx 0.86$, the system undergoes a fold bifurcation that produces an additional pair of equilibria: a saddle point and a low-energy stable state.[21–23](#references) Beyond this point, and until until a right fold near $A \approx 1.13$, the system is **bistable**, exhibiting both a healthy-energy attractor and a collapsed-energy attractor, separated by a codimension-one separatrix.
+At low axonal load—corresponding to the **ventral tegmental area (VTA)** range—the system contains a **single stable equilibrium**, a robust high-energy attractor. As $A$ increases, the energy nullcline bends downward, and at a critical load value near
+$ A \approx 0.86, $ the system undergoes a **left saddle-node fold** that gives rise to a **low-energy stable state** and an intervening **saddle point**.[21–23](#references) This marks the onset of **bistability**. For loads
+$ A \in [0.86,, 1.06], $ the system contains three equilibria: a healthy high-energy attractor, a collapsed low-energy attractor, and a saddle separating their basins.
 
-This bistable window (approximately 𝐴 ∈ [0.86, 1.13]) is precisely where **substantia nigra dopaminergic neurons** are expected to lie based on anatomical reconstructions showing their vastly expanded axonal arborizations and elevated energetic burden.[1,3,15–17](#references) In this regime, the neuron can maintain normal energetic function but only by remaining on the high-energy side of the saddle’s stable manifold. Even transient perturbations—such as brief metabolic challenges, mitochondrial insults, or calcium-driven fluctuations in ATP demand—can push the system across this barrier, leading to an irreversible transition into the low-energy attractor.[5–9,10–14,24](#references) This geometry provides a mechanistic explanation for the characteristic “catastrophic failure” in substantia nigra neurons despite long periods of apparent resilience.
+Crucially, the **typical SNc load range ($A \approx 0.9–1.0$) lies entirely *to the right* of the left fold**, meaning that SNc neurons operate **inside** the bistable regime rather than approaching it from below. Even modest metabolic or calcium-driven perturbations can push the system across the saddle’s stable manifold and into the collapsed state, providing a compact explanation for the long periods of apparent resilience followed by sudden, irreversible decline in substantia nigra dopaminergic neurons.[1,3,5–9,10–17,24](#references)
 
-An important aspect of the bifurcation structure is that **the right fold (the point at which the two stable equilibria annihilate)** lies **beyond the biologically relevant range of $A$** for dopaminergic neurons. As a consequence, while the system exhibits a true saddle-node bifurcation mathematically, **hysteresis does not play a major role biologically**. Once the neuron has collapsed into the low-energy state, decreasing $A$ (e.g., through loss of axon terminals) does not restore the high-energy state, because the fold at which recovery would occur sits outside physiologically plausible arborization values.[1,3,15–17](#references) Thus, the collapse is effectively irreversible in the anatomical range relevant for Parkinson’s disease.
+At higher load the bistable structure eventually terminates: the high-energy and saddle branches coalesce in a **right fold** near $ A \approx 1.06. $
+This value lies **above the typical SNc range** $(A \approx 0.9–1.0)$ but within the broader **SNc outlier/uncertainty band** ($A \approx 1.0–1.1$). As a result, **changes in arborization load alone** (e.g., terminal pruning during degeneration) cannot return the system to the high-energy branch once collapse occurs. Within the structure of this model, collapse is therefore **irreversible with respect to load changes**, although in principle biological or therapeutic interventions acting on other parameters (e.g., mitochondrial repair, ATP generation, calcium burden) could shift the nullclines and restore the healthy state..
 
-If desired, this bifurcation geometry can be further examined through extended parameter sweeps or numerical continuation methods (Supplementary Figures S1–S3), which show that the bistable window persists under moderate changes in mitochondrial turnover, Ca²⁺-handling cost, and the strength of energy-dependent mitochondrial damage. These analyses confirm that saddle-node structure is a **robust qualitative feature** of the model rather than a fine-tuned artifact of any specific parameter choice.[21–23](#references)
+Extended parameter sweeps and numerical continuation analyses (Supplementary Figures S1–S3) confirm that this saddle-node structure is a **robust feature** of the model: the location of the folds shifts modestly with changes in mitochondrial turnover, Ca²⁺-handling cost, and energy-dependent mitochondrial damage, but the bistable window persists.[21–23](#references)
 
-Together, these results establish that **axonal arborization is a natural control parameter for dopaminergic energetic stability**, and that substantia nigra neurons, by virtue of their extreme structural load, are uniquely situated near a dynamical tipping point.[1,3,15–17,21–23](#references)
-
----
+Together, these results demonstrate that **axonal arborization is the natural control parameter governing dopaminergic energetic stability**. VTA neurons lie in the monostable, high-energy regime; typical SNc neurons lie in the bistable window; and SNc outliers lie close to the right fold. This load-driven positioning explains why **SNc neurons are selectively vulnerable to collapse**, whereas VTA neurons—with far smaller arbors—are not.[1,3,15–17,21–23](#references)
 
 ## **4. Comparison of Substantia Nigra and Ventral Tegmental Area Neurons**
 
 A defining characteristic of substantia nigra pars compacta (SNc) dopaminergic neurons is their extraordinarily large and widely distributed axonal arbor. Anatomical reconstructions indicate that a single SNc neuron forms hundreds of thousands to millions of synapses, a structural scale unmatched by most other neuronal types.[1,3,15,16](#references) In contrast, dopaminergic neurons in the ventral tegmental area (VTA) innervate far fewer targets, with substantially smaller arbor size and reduced calcium-handling burden during pacemaking.[5–9,15–17](#references) These anatomical and physiological differences map naturally onto the load parameter $A$ in our model.
+
+Updated bifurcation results place **VTA neurons** ($A \approx 0.3$–$0.5$) **entirely left of the left fold** at $A \approx 0.86$, meaning they live in a **strictly monostable** portion of parameter space. Their phase planes therefore contain **only a single high-energy attractor**, with no saddle and no collapsed state available.
+
+**SNc neurons**, by contrast, have typical arborization loads of
+$$A \approx 0.9\text{–}1.0,$$
+which lie **inside the bistable window** identified in Section 3. Their phase planes show:
+
+* a high-energy attractor,
+* a low-energy attractor,
+* and the saddle separating the two basins.
+
+SNc neurons therefore operate **on the interior of a bistable region**, not merely near its edge. This matters because perturbations need not be large to reach the saddle’s stable manifold.
+
+A small subset of SNc neurons—those with unusually large arbors—likely fall in
+$$A \approx 1.0\text{–}1.1,$$
+a band that approaches the **right fold** at $A\approx1.06$, where the healthy state disappears entirely. These “outliers” are predicted to be the **most vulnerable** neurologically, consistent with observed heterogeneity in SNc degeneration patterns.[15–17](#references)
+
+Taken together, the updated geometric picture provides a single unifying explanation:
+
+* **VTA:** monostable → perturbations always recover.
+* **SNc:** bistable → perturbations may push across the separatrix.
+* **SNc outliers:** near right fold → collapse becomes nearly unavoidable.
+
+This dynamic positioning—not unique molecular differences—explains the selective vulnerability of SNc neurons.
 
 | ![](/Stage_3_PhasePlanes/latest_run/phase_plane_VTA_A_0.40.png)          | ![](/Stage_3_PhasePlanes/latest_run/phase_plane_SNc_A_1.00.png)                        |
 | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
 | **Figure 4A. Phase plane of the minimal energetic model at a low axonal load representative of VTA neurons (A = 0.40).** | **Figure 4B. Phase plane of the minimal energetic model at a high axonal load representative of SNc neurons (A = 1.00).** |
 
 **Figure 4. Phase-plane comparison of VTA-like and SNc-like dopaminergic neurons.**
-*Left (Figure 4A):* The horizontal axis shows energetic reserve E and the vertical axis mitochondrial capacity M. Gray arrows denote the vector field, the solid curve the energy nullcline (dE/dt = 0), and the dashed curve the mitochondrial nullcline (dM/dt = 0). In this low-load regime the nullclines intersect only once, at a high-energy, high-mitochondrial-capacity equilibrium. Sample trajectories (colored curves) initiated from widely separated initial conditions—including states with low energy and/or impaired mitochondria—are all attracted to this single fixed point. The absence of additional fixed points or a separatrix indicates a globally attracting, monostable high-energy regime, in which VTA-like neurons robustly recover their energetic state following transient perturbations rather than tipping into collapse.
+*Left (Figure 4A):* The horizontal axis shows energetic reserve E and the vertical axis mitochondrial capacity M. Gray arrows denote the vector field, the solid curve the energy nullcline (dE/dt = 0), and the dashed curve the mitochondrial nullcline (dM/dt = 0). In this low-load regime the nullclines intersect only once, at a high-energy, high-mitochondrial-capacity equilibrium. Sample trajectories (colored curves) initiated from widely separated initial conditions—including states with low energy and/or impaired mitochondria—are all attracted to this single fixed point. The absence of additional fixed points or a separatrix indicates a globally attracting, monostable high-energy regime, in which VTA-like neurons robustly recover their energetic state following transient perturbations rather than tipping into collapse. Under the updated bifurcation structure, VTA neurons ($A \approx 0.3$–$0.5$) lie left of the saddle-node fold at $A \approx 0.86$, whereas SNc neurons ($A \approx 0.9$–$1.0$) lie inside the bistable window for which this landscape applies.
 *Right (Figure 4B):* As in the left panel, the horizontal axis shows energetic reserve E and the vertical axis mitochondrial capacity M. The solid curve denotes the energy nullcline (dE/dt = 0) and has an S-shaped profile, while the dashed curve shows the mitochondrial nullcline (dM/dt = 0). At this high load the nullclines intersect three times: at a low-energy, low-mitochondrial-capacity fixed point, a high-energy fixed point, and an intermediate saddle (red marker). Sample trajectories (colored curves) initiated on either side of the saddle’s stable manifold diverge toward different long-term outcomes: those starting above and to the right of the separatrix relax to the high-energy attractor, whereas those starting below or to the left are drawn into the low-energy attractor. The coexistence of these two energetic fates under the same parameter set, separated only by a narrow dynamical boundary, illustrates how extreme structural load places SNc-like neurons inside a bistable regime where modest perturbations can tip them from normal function into irreversible energetic collapse.[1,3,5–9,15–17,21–23](#references)
 
 To evaluate their energetic stability under these distinct conditions, we examined the phase plane at load values representative of each population. **Figure 4A** shows the vector field and nullclines for a low-load setting ($A = 0.40$), corresponding to VTA-like neurons. In this regime, the system exhibits only a single stable equilibrium: a healthy, high-energy state. The absence of additional fixed points implies that VTA neurons are far from any critical boundary, and perturbations that transiently diminish energy are followed by a robust return to baseline.
@@ -210,7 +237,23 @@ These analyses highlight a simple but powerful principle: **structural load alon
 
 ---
 
-## **5. Perturbation Experiments Demonstrate Collapse in Substantia Nigra Neurons but Recovery in VTA Neurons**
+## **5. Perturbation Experiments Demonstrate Collapse in SNc but Recovery in VTA Neurons**
+
+The updated bifurcation structure provides a mechanistic foundation for interpreting the perturbation experiments. Because **VTA neurons lie entirely left of the left fold ($A<0.86$)**, they possess **only one attracting state**, and any perturbation eventually returns to that high-energy equilibrium.
+
+In contrast, **SNc neurons (A ≈ 0.9–1.0)** lie **inside the bistable window**, where the saddle’s stable manifold divides the high- and low-energy basins. Perturbations that move the trajectory across this manifold, even transiently, inevitably carry the system to the collapsed low-energy attractor.
+
+The perturbation experiment therefore operationalizes the bifurcation structure:
+
+* For **VTA** ($A=0.40$):
+  the system returns to the high-energy attractor because no competing attractor exists.
+
+* For **SNc** ($A=1.00$):
+  the same perturbation shifts the trajectory into the collapsed basin, producing an irreversible decline.
+
+Finally, because the **right fold** lies at $A\approx1.06$—*above* typical SNc values—**changes in axonal load alone (e.g., pruning) cannot reverse collapse** once it occurs. The system has already lost access to the high-energy branch for all physiologically plausible post-degeneration loads.
+
+Thus the perturbation experiments are not merely numerical demonstrations; they are direct consequences of the model’s saddle-node geometry.
 
 To test how each neuronal population responds to transient metabolic stress, we simulated energy trajectories beginning near the high-energy steady state for both load conditions ($A = 0.40$ for VTA-like neurons and $A = 1.00$ for SNc-like neurons). Under these baseline conditions, both cell types remain stable and maintain high energetic reserve over long timescales (Figure 5A). This confirms that elevated structural load alone does not force SNc neurons into the pathological state; rather, it places them near a boundary where recovery from perturbation becomes precarious.[15–17,24](#references)
 
@@ -220,7 +263,7 @@ To test how each neuronal population responds to transient metabolic stress, we 
 
 **Figure 5. Time-course simulations reveal robustness in VTA neurons and collapse in SNc neurons.**
 *Left (Figure 5A):* Starting from slightly elevated initial conditions, both traces relax rapidly onto their respective high-energy steady states (dashed lines) and remain stable over long times, while the corresponding mitochondrial capacities $M(t)$ (not shown) behave similarly. Elevated structural load lowers the SNc steady-state energy level but does not drive spontaneous decline, indicating that extreme arborization alone is compatible with a persistent high-energy operating point and that collapse requires an additional perturbation.
-*Right (Figure 5B):* In the VTA-like monostable regime, $E(t)$ rapidly relaxes back to its original high-energy steady state, indicating robust recovery from transient metabolic stress. In the SNc-like bistable regime, the same perturbation pushes the system across the saddle’s separatrix so that $E(t)$ subsequently drifts toward and stabilizes at the low-energy attractor; the corresponding mitochondrial capacity $M(t)$ (not shown) declines in parallel. The divergent outcomes of identical insults in the two regimes illustrate how proximity to a load-induced tipping point allows SNc neurons—but not VTA neurons—to undergo irreversible energetic collapse after modest perturbations.[15–17,21–24](#references)
+*Right (Figure 5B):* In the VTA-like monostable regime, $E(t)$ rapidly relaxes back to its original high-energy steady state, indicating robust recovery from transient metabolic stress. In the SNc-like bistable regime, the same perturbation pushes the system across the saddle’s separatrix so that $E(t)$ subsequently drifts toward and stabilizes at the low-energy attractor; the corresponding mitochondrial capacity $M(t)$ (not shown) declines in parallel. The divergent outcomes of identical insults in the two regimes illustrate how proximity to a load-induced tipping point allows SNc neurons—but not VTA neurons—to undergo irreversible energetic collapse after modest perturbations.[15–17,21–24](#references) The divergent outcomes reflect the underlying folds at $A=0.86$ and $A=1.06$: VTA-like neurons sit left of the bistable window; SNc-like neurons sit inside it, where perturbations can push trajectories across the separatrix.
 
 We introduced a brief energetic perturbation by transiently reducing the energy variable $E$ to 0.3 at time $t = 50$, mimicking a short-lived metabolic challenge such as a burst of pacemaking Ca²⁺ entry, local inflammation, oxidative stress, or a mitochondrial inhibition event.[5–9,10–14,24](#references) The subsequent trajectories reveal a marked divergence between the two neuronal types (Figure 5B).
 
@@ -236,17 +279,21 @@ These perturbation experiments thus provide computational evidence that **proxim
 
 ## **6. Discussion**
 
-Dopaminergic neurons of the substantia nigra pars compacta (SNc) are uniquely vulnerable in Parkinson’s disease, whereas neighboring ventral tegmental area (VTA) neurons remain comparatively resilient.[15–17](#references) Although numerous molecular abnormalities have been implicated—mitochondrial dysfunction, oxidative stress, calcium dysregulation, dopamine metabolism, and α-synuclein aggregation—no single factor has fully explained the striking anatomical selectivity of degeneration.[5–14,18–20,24](#references) Here we show that a **minimal energetic model** capturing only two dynamic variables and two structural loads is sufficient to reproduce the essential pattern of selective vulnerability. In this framework, SNc neurons are not intrinsically fragile; rather, they operate near a **saddle-node bifurcation** in the energy–mitochondria feedback loop created by their extraordinary axonal and calcium-handling demands.[1,3,5–9,15–17,21–23](#references)
+The updated continuation analysis clarifies the central thesis: **selective SNc vulnerability is rooted in their location inside a load-induced bistable window**, bounded by saddle-node folds at
+$$A \approx 0.86 \quad\text{and}\quad A \approx 1.06.$$
 
-This geometric perspective naturally unifies several empirical observations. SNc neurons maintain vast axonal arbors that impose high energetic costs for synaptic maintenance, vesicle cycling, and axoplasmic transport.[1–4,15,16](#references) Their autonomous pacemaking relies on L-type calcium channels, introducing additional energetic burden for Ca²⁺ extrusion and mitochondrial buffering.[5–9](#references) In the model, these features are reflected in the load parameter $A$. As structural load increases, the energy nullcline deforms, eventually creating two coexisting energetic states—a healthy attractor and a collapsed attractor—separated by a saddle. SNc-like neurons fall within this bistable regime, while VTA-like neurons, with their smaller arbors, remain monostable and robust. This separation of dynamical regimes provides a simple and mechanistic explanation for why two closely related neuronal populations experience vastly different fates under the same molecular milieu.[15–17,21–23](#references)
+**VTA neurons** ($A \approx 0.3$–$0.5$) sit comfortably **left of the left fold**, in a monostable regime where energetic recovery is guaranteed. **SNc neurons** ($A \approx 0.9$–$1.0$) sit **inside the bistable window**, close to the saddle separatrix. And **SNc outliers** ($A \approx 1.0$–$1.1$) approach the **right fold**, where the high-energy state disappears entirely.
 
-The model also offers insight into the **temporal profile** of degeneration. Clinical and pathological studies suggest that dopaminergic neurons can function for decades despite accumulating stressors, followed by a relatively sudden collapse in function and cell viability.[15–17,24](#references) In the saddle-node regime, apparent stability is maintained until a perturbation—metabolic fluctuation, inflammatory episode, mitochondrial insult—pushes the system across the separatrix.[10–14,18–20,24](#references) Once this threshold is crossed, recovery is no longer possible because the right-hand fold of the bifurcation lies beyond the biologically plausible range of axonal load (Section 3). The model therefore accounts for both the long prodromal period and the abrupt, irreversible decline in SNc neurons without invoking catastrophic molecular changes at the moment of symptom onset.[21–23](#references)
+This geometry transforms the longstanding puzzle of selective vulnerability into a dynamical one:
 
-Several **testable predictions** emerge from this framework. Interventions that reduce effective load—such as pruning excessive axonal branches, reducing Ca²⁺ influx through L-type channel blockers, or lowering synaptic maintenance cost—should shift neurons leftward in parameter space, increasing resilience by moving them out of the bistable window.[5–9,15–17](#references) Enhancing mitochondrial repair or turnover should raise the energy nullcline and reduce sensitivity to perturbation.[10–14,24](#references) Conversely, stressors that transiently reduce energetic reserve (e.g., oxidative bursts, inflammatory cytokines, or mitochondrial inhibitors) are predicted to disproportionately harm SNc neurons by pushing them across the separatrix, whereas VTA neurons should recover.[15–17,24](#references) Heterogeneity in axonal arbor size within the SNc population may account for neuron-to-neuron differences in vulnerability, an idea consistent with recent single-cell degeneration patterns and anatomical variability.[1,3,15,16](#references)
+* SNc neurons are not “weak”; they are operating on the interior of a bistable regime where **even modest perturbations** can initiate irreversible collapse.
+* VTA neurons are not “resilient”; they simply operate in a **monostable region** where collapse is structurally impossible.
+* Collapse in SNc neurons is **irreversible with respect to axonal load** because post-degeneration pruning cannot shift $A$ leftward past the left fold without crossing anatomically impossible thresholds.
 
-This work also highlights **limitations**. The model is intentionally minimal and omits many molecular processes implicated in Parkinson’s disease, including α-synuclein aggregation, lysosomal-autophagic dysfunction, dopamine oxidation, and genetic factors such as LRRK2 mutations.[12,13,18–20](#references) These factors likely modulate energetic stress or mitochondrial resilience and could be incorporated as additional terms that shift nullcline geometry. Furthermore, the model does not include intrinsic stochasticity; incorporating noise may reveal graded transition probabilities near the separatrix, as suggested by general tipping-point theory.[22,23](#references) Despite these simplifications, the qualitative structure of the bifurcation—the emergence of two energetic states under load—proves robust under wide parameter variation (Supplementary Section S3), suggesting that the tipping-point mechanism is more fundamental than any specific biochemical pathway.[21–23](#references)
+This dynamical picture accounts for the hallmark clinical sequence: decades of apparent stability followed by sudden decline. It also clarifies therapeutic leverage points:
+interventions that shift the system *leftward* (lower effective $A$ or $C$), *upward* (improving mitochondrial turnover), or *rightward* (deepening the high-energy basin) all move the neuron further from the saddle and reduce collapse probability.
 
-Overall, this minimal framework demonstrates that **extreme structural and physiological load places SNc dopaminergic neurons near a critical dynamical boundary**, making them uniquely susceptible to irreversible energetic collapse.[1,3,5–9,15–17,21–24](#references) By focusing on the geometry of energetic regulation rather than the molecular details, the model provides a unifying explanation for selective vulnerability and a foundation upon which more detailed mechanistic hypotheses can be built. Ultimately, this perspective suggests that therapeutic strategies aimed at reducing structural load, moderating calcium stress, or strengthening mitochondrial resilience may be effective not because they target a specific molecular lesion, but because they shift SNc neurons away from a saddle-node tipping point and restore them to a monostable energetic regime.
+The model therefore offers a unifying principle: **extreme structural load places SNc neurons in a fundamentally different dynamical regime**. Their vulnerability is a geometric inevitability, not a molecular anomaly.
 
 ---
 
@@ -451,23 +498,27 @@ Because SNc neurons experience substantial Ca²⁺ influx during pacemaking, we 
 
 Across all sweeps, the saddle-node bifurcation persisted, demonstrating that the fold is a **structural consequence** of the feedback motif, not a fine-tuned artifact.[21–23](#references)
 
----
+### **S4. Absence of Biologically Relevant Hysteresis**
 
-### **S4. Absence of biologically relevant hysteresis**
+The updated full continuation analysis (Figure 3) reveals that the saddle-node bifurcation contains two folds:
 
-Mathematically, the full bifurcation curve includes both a left fold (creation of bistability) and a right fold (annihilation). However:
+* A **left fold** at $A \approx 0.86$, where bistability first appears.
+* A **right fold** at $A \approx 1.06$, where the high-energy and saddle branches merge and annihilate.
 
-* The right fold occurs at $A \approx 1.13$, slightly _above_ the estimated SNc axonal load range ($A \approx 1.0-1.1$). [1,3,15–17](#references)
-* Thus, the low-energy branch persists across all physiologically meaningful loads.
+Because **typical SNc loads** lie in $A \approx 0.9$–$1.0$, they are **inside** the bistable window but safely **left of** the right fold.
 
-This means that once the system collapses into the low-energy attractor, reducing the load (e.g., via axonal pruning during degeneration) does **not** restore the healthy energetic state. This absence of hysteresis in the biological range explains:
+This implies:
 
-1. The irreversibility of SNc collapse,
-2. Why pruning does not rescue already failing neurons,
-3. Why collapse proceeds inexorably once initiated.[15–17,21–23](#references)
+1. **Collapse is not recoverable by reducing $A$.**
+   After collapse, the neuron would need to reduce its effective load from $A\approx0.9–1.0$ **below 0.86** to re-enter the monostable high-energy regime—a biologically impossible degree of pruning.
 
-![Supplementary Figure S7. Full continuation of equilibria showing right fold beyond biological range.](/Stage_S7_FullContinuation/latest_run/supp_S7_full_bifurcation_E_vs_A.png) **Supplementary Figure S7. Full continuation of equilibria showing right fold beyond biological range.**
-The complete bifurcation diagram reveals a right-hand fold at axonal loads larger than those observed in dopaminergic neurons, implying that the collapsed low-energy state remains stable throughout the physiological range of $A$.
+2. **Hysteresis exists mathematically but is absent physiologically.**
+   The right fold is above most SNc neurons’ anatomical load, so the system cannot traverse it in vivo.
+
+3. **Degeneration cannot “self-correct” by arbor loss.**
+   Once collapse occurs, the system is confined to the low-energy branch across all plausible anatomical loads.
+
+This validates the clinical observation that SNc degeneration, once initiated, proceeds irreversibly.
 
 ---
 

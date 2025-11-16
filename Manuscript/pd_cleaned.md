@@ -433,13 +433,19 @@ We systematically varied key parameters to assess how sensitive the saddle-node 
 
 #### **S3.1 Variation in mitochondrial turnover rate $k_M$**
 
+![Supplementary Figure S4. Effect of mitochondrial turnover rate $k_M$ on the bistable window in axonal load $A$.](/Stage_S4_S6_RobustnessSweeps/latest_run/supp_S4_kM_bistable_window.png)
+
 Increasing $k_M$ shifts the bistable window to higher values of $A$, reflecting improved mitochondrial resilience. Conversely, reducing $k_M$ expands the bistable region toward lower loads, making more neurons susceptible to collapse.[10–14,21–23](#references)
 
 #### **S3.2 Variation in load-dependent consumption $L_1$**
 
+![Supplementary Figure S5. Effect of load-dependent energy cost $L_1$ on the bistable window in axonal load $A$.](/Stage_S4_S6_RobustnessSweeps/latest_run/supp_S5_L1_bistable_window.png)
+
 Higher $L_1$ (greater energy cost per unit arbor) widens the bistable region and lowers the high-energy steady-state value. Lower $L_1$ compresses the window and raises the healthy equilibrium.
 
 #### **S3.3 Variation in calcium-handling load $C$**
+
+![Supplementary Figure S6. Effect of Ca²⁺-handling load $C$ on the bistable window in axonal load $A$.](/Stage_S4_S6_RobustnessSweeps/latest_run/supp_S6_C_bistable_window.png)
 
 Because SNc neurons experience substantial Ca²⁺ influx during pacemaking, we explored $C \in [0.5, 1.5]$. Changes in $C$ functionally act like scaling $A$; high $C$ shifts the bistable window leftward, increasing vulnerability.[5–9,21–23](#references)
 

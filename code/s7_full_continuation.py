@@ -39,13 +39,18 @@ def new_panel(figsize: Tuple[float, float] = (3.3, 2.2), panel_label: str | None
     return fig, ax
 
 
-def plot_full_bifurcation_E_vs_A(data_rows, filename: str, A_phys_max: float = 1.4):
+def plot_full_bifurcation_E_vs_A(
+    data_rows,
+    filename: str,
+    A_phys_min: float = 0.3,
+    A_phys_max: float = 1.1,
+):
     """Plot full continuation of E* vs A over an extended A-range.
 
     Stable, saddle, and unstable equilibria are shown with consistent
-    colors and markers. The physiologically relevant range of A (up to
-    `A_phys_max`) is shaded lightly to emphasize that the right-hand
-    fold lies beyond it.
+    colors and markers. Dopaminergic physiological ranges on the A-axis
+    (VTA-like, typical SNc, and an SNc high-outlier band) are indicated
+    using vertical translucent stripes.
     """
     A_stable, E_stable = [], []
     A_saddle, E_saddle = [], []
@@ -76,11 +81,39 @@ def plot_full_bifurcation_E_vs_A(data_rows, filename: str, A_phys_max: float = 1
         ax.scatter(A_saddle, E_saddle, s=28, marker="x",
                    color="red", label="saddle")
 
-    # Shade physiologically relevant A-range for dopaminergic neurons
+    # Shade dopaminergic ranges on the A-axis using vertical translucent stripes
     A_min = min(row["A"] for row in data_rows)
     A_max = max(row["A"] for row in data_rows)
-    ax.axvspan(A_min, A_phys_max, color="#fff2b2", alpha=0.5,
-               label="physiological A-range")
+
+    # VTA-like axonal loads: A ≈ 0.3–0.5
+    ax.axvspan(
+        0.3,
+        0.5,
+        color="#d8f3dc",
+        alpha=0.5,
+        zorder=0,
+        label="VTA-like axonal loads",
+    )
+
+    # Typical SNc load: A ≈ 0.9–1.0
+    ax.axvspan(
+        0.9,
+        1.0,
+        color="#cfe8ff",
+        alpha=0.5,
+        zorder=0,
+        label="Typical SNc load",
+    )
+
+    # SNc uncertainty / high-outlier range: A ≈ 1.0–1.1 (lighter extension)
+    ax.axvspan(
+        1.0,
+        1.1,
+        color="#cfe8ff",
+        alpha=0.25,
+        zorder=0,
+        label="SNc uncertainty / high-outlier range",
+    )
 
     ax.set_xlabel("Axonal load A")
     ax.set_ylabel("Steady-state energy E*")
@@ -91,7 +124,7 @@ def plot_full_bifurcation_E_vs_A(data_rows, filename: str, A_phys_max: float = 1
     # Place legend to the right with markers on the right and right-aligned labels
     legend = ax.legend(
         frameon=False,
-        loc="upper right",
+        loc="center right",
         markerfirst=False,
     )
     for txt in legend.get_texts():
@@ -124,7 +157,7 @@ if __name__ == "__main__":
     )
 
     out_png = os.path.join(run_dir, "supp_S7_full_bifurcation_E_vs_A.png")
-    plot_full_bifurcation_E_vs_A(data_rows, out_png, A_phys_max=1.4)
+    plot_full_bifurcation_E_vs_A(data_rows, out_png, A_phys_min=0.3, A_phys_max=1.1)
 
     # README
     write_readme(
@@ -138,9 +171,9 @@ if __name__ == "__main__":
             "",
             "Description:",
             "Supplementary S7 figure showing the full continuation of E* vs A ",
-            "for the EC3 model, including the right-hand fold located at ",
-            "axonal loads beyond the physiological range of dopaminergic ",
-            "neurons.",
+            "for the EC3 model, with dopaminergic physiological ranges on the ",
+            "A-axis (VTA-like, typical SNc, and an SNc high-outlier band) ",
+            "indicated by vertical translucent stripes.",
         ],
     )
 

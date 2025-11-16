@@ -319,17 +319,19 @@ The parameter $A$ represents axonal arborization load, and $C$ represents calciu
 
 ### **7.2 Parameter Values**
 
-Unless noted otherwise, the following parameter values were used throughout:
+Unless noted otherwise, all simulations used the canonical EC3 parameter set defined in the `PDParamsEC3` dataclass in `run_ec3_all.py`:
 
-| Parameter | Value | Description                                   |
-| --------- | ----- | --------------------------------------------- |
-| $k_1$     | 1.0   | Mitochondrial ATP production term             |
-| $k_2$     | 1.0   | Nonlinear energy amplification term           |
-| $L_0$     | 0.1   | Baseline energy consumption                   |
-| $L_1$     | 2.0   | Load-dependent energy consumption scaling     |
-| $k_M$     | 1.0   | Mitochondrial repair/turnover rate            |
-| $\beta$   | 1.0   | Energy-dependent mitochondrial damage scaling |
-| $C$       | 1.0   | Ca²⁺-handling load                            |
+| Parameter | Value   | Description                                   |
+| --------- | ------- | --------------------------------------------- |
+| $k_1$     | 0.3235  | Mitochondrial ATP production term             |
+| $k_2$     | 5.7647  | Nonlinear energy amplification term           |
+| $L_0$     | 0.8330  | Baseline energy consumption                   |
+| $L_1$     | 0.7138  | Load-dependent energy consumption scaling     |
+| $k_M$     | 0.7139  | Mitochondrial repair/turnover rate            |
+| $\beta$   | 1.5445  | Energy-dependent mitochondrial damage scaling |
+| $C$       | 1.0     | Ca²⁺-handling load                            |
+
+(Values are rounded to four decimal places for readability; exact values are given in the public code repository.)
 
 Axonal load $A$ was varied across simulations. For population comparisons:
 
@@ -372,51 +374,47 @@ All simulations were performed in **Python 3.13** using:
 * **NumPy 1.26** [28](#references)
 * **Matplotlib 3.7** [27](#references)
 
-Differential equations were integrated with the explicit Runge–Kutta method of order 5(4) (“RK45”) with:
+Differential equations were integrated using SciPy’s `solve_ivp` with the explicit Runge–Kutta method of order 5(4) (“RK45”). Unless otherwise specified, default SciPy tolerances were used, with a maximum step size of `max_step = 0.5`.
 
-```text
-rtol = 1e-8
-atol = 1e-10
-max_step = 0.1
-```
-
-For time-course figures, solutions were evaluated on a uniform time grid of 4000 points over $t \in [0, 300]$.
+For the time-course simulations in Figure 5, solutions were evaluated on a uniform grid of 2000 time points over $t \in [0, 300]$.
 
 ---
 
 ### **7.5 Determination of Steady States and Stability**
 
-Steady states for the bifurcation diagrams were computed using a two-step procedure:
+Steady states for the bifurcation diagrams (Stage 2 and Supplementary Stage S7) were computed using a two-step procedure implemented in `scan_equilibria_vs_A` and `find_equilibria` in `run_ec3_all.py`:
 
 1. **Coarse grid scan:**
    A regular grid of candidate points was constructed in the $(E, M)$ plane, and the right-hand side of the ODEs was evaluated to identify approximate zero crossings.
 
 2. **Refinement by root-finding:**
-   Each candidate point was refined using SciPy’s `fsolve` with tight tolerances.[26](#references)
+   Each candidate point was refined using SciPy’s `root` with the hybrid method (`method="hybr"`), which is the same underlying algorithm used by `fsolve`.[26](#references)
 
-Each equilibrium’s stability was determined by linearizing the system at that point and analyzing the eigenvalues of the resulting Jacobian. Points with eigenvalues having negative real parts were classified as stable; those with one positive real eigenvalue were classified as saddles.[21–23](#references)
+Each equilibrium’s stability was determined by linearizing the system at that point (function `jacobian` in `run_ec3_all.py`) and analyzing the eigenvalues of the resulting Jacobian using NumPy. Points with eigenvalues having negative real parts were classified as stable; those with one positive real eigenvalue were classified as saddles.[21–23](#references)
 
 ---
 
 ### **7.6 Bifurcation Scan Procedure**
 
-To construct the bifurcation diagram ([Figure 3](#figure_3)), the axonal load parameter $A$ was varied from 0.2 to 1.4 in increments of 0.02 (61 values total). For each $A$, all equilibria were computed as described above. The bistable window was defined as the range of $A$ for which exactly three equilibria were present.
+To construct the main bifurcation diagram ([Figure 3](#figure_3)), the axonal load parameter $A$ was varied from 0.2 to 1.4 in increments of 0.02 (61 values total). For each $A$, all equilibria were computed as described above. The bistable window was defined as the range of $A$ for which exactly three equilibria were present.
+
+For the full continuation shown in Supplementary Figure S7, the same procedure was repeated over an extended range $A \in [0.2, 2.0]$ with $n_A = 90$ samples (implemented in `s7_full_continuation.py`).
 
 ---
 
 ### **7.7 Phase Plane and Nullcline Computation**
 
-Phase planes (Figures 2 and 4) were computed on $[0,1] \times [0,1]$ grids of $200 \times 200$ points. At each point:
+Phase planes (Figures 2 and 4) were computed on $[0,1] \times [0,1]$ grids of $25 \times 25$ points, as implemented in `make_phase_plane_plot` in `run_ec3_all.py`. At each grid point:
 
 * The vector field $(dE/dt, dM/dt)$ was evaluated and normalized for display.
 * Nullclines were computed by finding zero-level contours of $dE/dt$ and $dM/dt$ using Matplotlib’s contour-finding routines.[27](#references)
-* Sample trajectories were generated by numerically integrating from selected initial conditions.[26,27](#references)
+* Sample trajectories were generated by numerically integrating from several representative initial conditions using `solve_ivp`.
 
 ---
 
 ### **7.8 Reproducibility and Code Availability**
 
-All simulations used deterministic ODE integration with fixed parameters. There is no stochasticity in the core model. Numerical code, figure-generation scripts, and processed data outputs will be made available upon publication and can be reproduced directly using the parameter sets and methods described above.
+All simulations used deterministic ODE integration with fixed parameters. There is no stochasticity in the core model. Numerical code, figure-generation scripts, and processed data outputs are available at [https://github.com/MaxAnfilofyev/parkinsons-ec3-model](https://github.com/MaxAnfilofyev/parkinsons-ec3-model) and can be reproduced directly using the parameter sets and methods described above.
 
 ---
 

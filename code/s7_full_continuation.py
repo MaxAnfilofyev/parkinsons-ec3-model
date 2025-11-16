@@ -9,6 +9,10 @@ import matplotlib.pyplot as plt
 from stage_utils import make_stage_run_dir, write_readme, STAGE_NAMES
 from run_ec3_all import PDParamsEC3, scan_equilibria_vs_A
 
+# Methods cross-reference (see Manuscript Section 7):
+#   - Parameter set and equations: Methods 7.1–7.2
+#   - Bifurcation scan vs A (full continuation, Stage S7): Methods 7.5–7.6
+
 # ============================================================
 # GLOBAL PLOTTING STYLE (MATCHES run_ec3_all.py)
 # ============================================================
@@ -165,6 +169,8 @@ if __name__ == "__main__":
         header="Stage S7: Full Continuation of EC3 Bifurcation vs A",
         body_lines=[
             f"Timestamp: {timestamp}",
+            "",
+            "Manuscript: Supplementary Figure S7 (full continuation)",
             "",
             "Files:",
             "- supp_S7_full_bifurcation_E_vs_A.png",

@@ -28,6 +28,13 @@ COLOR_VTA = "#1f77b4"       # VTA-like condition (blue)
 COLOR_SNC = "#ff7f0e"       # SNc-like condition (orange)
 COLOR_NULLCLINE = "#4b0082"  # Nullclines / bifurcation branches (dark purple)
 
+# Methods cross-reference (see Manuscript Section 7):
+#   - EC3 equations and parameter set: Methods 7.1–7.2
+#   - Initial conditions and perturbation protocol: Methods 7.3
+#   - Numerical integration and time courses (Stage 4): Methods 7.4
+#   - Steady states, stability, and bifurcation scan (Stage 2): Methods 7.5–7.6
+#   - Phase planes and nullclines (Stage 3): Methods 7.7
+
 
 def new_panel(figsize=(3.3, 2.0), panel_label=None):
     """Create a new figure/axes pair with optional panel label.
@@ -546,6 +553,8 @@ if __name__ == "__main__":
         [
             f"Timestamp: {timestamp}",
             "",
+            "Manuscript: Figure 3 (bifurcation of E* vs A)",
+            "",
             "Files:",
             "- ec3_equilibria_vs_A.csv",
             "- ec3_bifurcation_summary.txt",
@@ -583,6 +592,8 @@ if __name__ == "__main__":
         "Stage 3: Phase Planes for VTA and SNc",
         [
             f"Timestamp: {timestamp}",
+            "",
+            "Manuscript: Figure 4A–B (phase planes)",
             "",
             "Files:",
             "- phase_plane_VTA_A_0.40.png",
@@ -694,6 +705,8 @@ if __name__ == "__main__":
         "Stage 4: Time Courses and Perturbation Experiments",
         [
             f"Timestamp: {timestamp}",
+            "",
+            "Manuscript: Figure 5A–B (time courses and perturbations)",
             "",
             "Files:",
             "- timecourses_VTA_vs_SNc_baseline.png",

@@ -389,8 +389,6 @@ The simplest architecture consisted of:
 
 In this system, the energy nullcline is monotonic for all parameter values, and the mitochondrial nullcline intersects it **exactly once** within the biologically relevant domain. The vector field analysis confirmed global convergence to a unique fixed point. No choice of axonal load $A$, even when increased far beyond anatomical ranges, produced a second intersection.
 
-![](/outputs/supplement_ec2_S3_phase_plane.png)
-
 **Supplementary Figure S1. Nullclines and vector field for an earlier, monostable model variant.**
 In a model with linear mitochondrial support and load effects but no nonlinear energy amplification, the energy and mitochondrial nullclines intersect only once in the physical domain. The vector field indicates global convergence to a single equilibrium for all tested values of $A$, demonstrating that this architecture cannot produce bistability.
 
@@ -401,8 +399,6 @@ The second architecture attempted to incorporate a biologically motivated feedba
 * The energy nullcline remained single-peaked but never developed a fold.
 * The mitochondrial nullcline cut across it only once.
 * Bifurcation scans across a wide range of $A \in [0.1, 2.0]$ showed one stable equilibrium everywhere.
-
-![](/outputs/supplement_ec2_S2_bifurcation_A.png)
 
 **Supplementary Figure S2. Bifurcation scan for a feedback-only model lacking nonlinear energy amplification.**
 Even with feedback from energy to mitochondrial damage, the system exhibits only a single equilibrium across a broad range of axonal loads $A$. No saddle-node bifurcation appears, confirming that feedback alone is insufficient to generate bistability in this architecture.[21–23](#references)
@@ -425,8 +421,6 @@ When included, the nonlinear term interacts with load-dependent consumption and 
 1. A high-energy fixed point,
 2. A low-energy fixed point,
 3. A saddle separating their basins.
-
-![](/outputs/supplement_ec2_S3_phase_plane.png)
 
 **Supplementary Figure S3. Effect of nonlinear energy amplification on nullcline geometry.**
 Including the nonlinear term $k_2 E^2(1-E)$ generates a folded energy nullcline that, together with the mitochondrial nullcline, produces three intersections corresponding to two stable equilibria and a saddle. Removing this term collapses the fold and eliminates bistability.

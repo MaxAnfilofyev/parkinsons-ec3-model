@@ -559,7 +559,7 @@ if __name__ == "__main__":
     plt.title("Baseline Time Courses: VTA vs SNc")
     plt.legend()
     plt.tight_layout()
-    plt.ylim(0.5, 0.8)
+    plt.ylim(0, 0.8)
     plt.savefig(os.path.join(run_dir_stage4, "timecourses_VTA_vs_SNc_baseline.png"),
                 dpi=300)
     plt.close()
@@ -597,6 +597,7 @@ if __name__ == "__main__":
     plt.axvline(50.0, color="k", linestyle="--", linewidth=0.8, label="perturbation")
     plt.xlabel("t (a.u.)")
     plt.ylabel("E(t)")
+    plt.ylim(0, 0.8)
     plt.title("Perturbation: SNc Collapse vs VTA Recovery")
     plt.legend()
     plt.tight_layout()

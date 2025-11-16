@@ -1,4 +1,9 @@
+
 # A Load-Induced Energetic Tipping Point Explains Selective Vulnerability of Substantia Nigra Neurons
+
+Max Anfilofyev
+
+max.anfilofyev@gmail.com
 
 ## **Abstract**
 
@@ -94,16 +99,12 @@ The dynamics of the system are described by two coupled differential equations g
 
 $$
 \frac{dE}{dt}
-= k_1 M(1-E)
-* k_2 E^2(1-E)
-- \left(L_0 + L_1 A C\right) E ,
+= k_1 M(1-E) * k_2 E^2(1-E) - \left(L_0 + L_1 A C\right) E ,
   $$
 
 $$
 \frac{dM}{dt}
-= k_M(1-M)
-
-* \beta A C M (1-E).
+= k_M(1-M) * \beta A C M (1-E).
 $$
 
 The first term in the energy equation represents ATP production by functional mitochondria: as long as mitochondria are intact ($M$ large), they drive $E$ upward toward its maximum. The nonlinear term $E^2(1-E)$ captures activity-dependent amplification of energy availability, reflecting processes such as efficient pump operation, metabolic feedback, and cooperative mitochondrial behavior. The final term represents energy consumption, which increases with both arborization load $A$ and Ca²⁺-handling demand $C$.
@@ -192,11 +193,14 @@ Together, these results establish that **axonal arborization is a natural contro
 
 A defining characteristic of substantia nigra pars compacta (SNc) dopaminergic neurons is their extraordinarily large and widely distributed axonal arbor. Anatomical reconstructions indicate that a single SNc neuron forms hundreds of thousands to millions of synapses, a structural scale unmatched by most other neuronal types. In contrast, dopaminergic neurons in the ventral tegmental area (VTA) innervate far fewer targets, with substantially smaller arbor size and reduced calcium-handling burden during pacemaking. These anatomical and physiological differences map naturally onto the load parameter (A) in our model.
 
-![Figure 4A. Phase plane for low-load (VTA-like) dopaminergic neurons](/Stage_3_PhasePlanes/latest_run/phase_plane_VTA_A_0.40.png)Figure 4A. Phase plane for low-load (VTA-like) dopaminergic neurons
+| ![](/Stage_3_PhasePlanes/latest_run/phase_plane_VTA_A_0.40.png) | ![](/Stage_3_PhasePlanes/latest_run/phase_plane_SNc_A_1.00.png)  |
+| -------- | -------- |
+|Figure 4A. Phase plane for low-load (VTA-like) dopaminergic neurons | Figure 4B. Phase plane for high-load (SNc-like) dopaminergic neurons $ A = 1.00 $ |
+
 
 To evaluate their energetic stability under these distinct conditions, we examined the phase plane at load values representative of each population. **Figure 4A** shows the vector field and nullclines for a low-load setting ($A = 0.40$), corresponding to VTA-like neurons. In this regime, the system exhibits only a single stable equilibrium: a healthy, high-energy state. The absence of additional fixed points implies that VTA neurons are far from any critical boundary, and perturbations that transiently diminish energy are followed by a robust return to baseline.
 
-![Figure 4B. Phase plane for high-load (SNc-like) dopaminergic neurons](/Stage_3_PhasePlanes/latest_run/phase_plane_SNc_A_1.00.png)Figure 4B. Phase plane for high-load (SNc-like) dopaminergic neurons $A=1.00$
+
 
 In contrast, **Figure 4B** illustrates the phase plane at a higher load value ($A = 1.00$), representative of SNc neurons. Here the system lies **within the bistable window** identified in the bifurcation analysis. Three equilibria are present: a high-energy attractor, a low-energy attractor, and an intervening saddle point. The stable manifold of the saddle forms a separatrix that partitions the phase plane into two basins of attraction. SNc neurons therefore operate close to a **dynamical boundary**: small shifts in energetic reserve or mitochondrial capacity can determine whether the system returns to its healthy energetic state or transitions irreversibly into collapse.
 
@@ -208,11 +212,11 @@ These analyses highlight a simple but powerful principle: **structural load alon
 
 To test how each neuronal population responds to transient metabolic stress, we simulated energy trajectories beginning near the high-energy steady state for both load conditions ($A = 0.40$ for VTA-like neurons and $A = 1.00$ for SNc-like neurons). Under these baseline conditions, both cell types remain stable and maintain high energetic reserve over long timescales (Figure 5A). This confirms that elevated structural load alone does not force SNc neurons into the pathological state; rather, it places them near a boundary where recovery from perturbation becomes precarious.
 
-![Figure 5A. Baseline Time Courses](/Stage_4_TimeCourses/latest_run/timecourses_VTA_vs_SNc_baseline.png)Figure 5A. Baseline Time Courses
+| ![](/Stage_4_TimeCourses/latest_run/timecourses_VTA_vs_SNc_baseline.png) | ![](/Stage_4_TimeCourses/latest_run/timecourses_SNc_vs_VTA_perturbation.png)  |
+| -------- | -------- |
+|Figure 5A. Baseline Time Courses | Figure 5B. Perturbation Time Courses |
 
 We then introduced a brief energetic perturbation by transiently reducing the energy variable (E) to 0.3 at time (t = 50), mimicking a short-lived metabolic challenge such as a burst of pacemaking Ca²⁺ entry, local inflammation, oxidative stress, or a mitochondrial inhibition event. The subsequent trajectories reveal a marked divergence between the two neuronal types (Figure 5B).
-
-![Figure 5B. Perturbation Time Courses](/Stage_4_TimeCourses/latest_run/timecourses_SNc_vs_VTA_perturbation.png)Figure 5B. Perturbation Time Courses
 
 In the **VTA-like regime** ($A = 0.40$), the system quickly returns to the high-energy steady state after the perturbation. The energy reserve recovers smoothly, and mitochondrial capacity stabilizes along the same trajectory as in the unperturbed baseline. This behavior reflects the fact that VTA neurons, with their modest arborization load, lie far from the saddle-node bifurcation and thus possess a **single, globally attracting energetic state**. Perturbations may transiently reduce energy but do not threaten long-term stability.
 
@@ -246,9 +250,7 @@ The energetic state of a dopaminergic neuron was described by two coupled differ
 
 $$
 \frac{dE}{dt}
-= k_1 M (1-E) * k_2 E^2 (1-E)
-- \left(L_0 + L_1 A C\right) E ,
-  $$
+= k_1 M (1-E) * k_2 E^2 (1-E) - \left(L_0 + L_1 A C\right) E ,$$
 
 $$
 \frac{dM}{dt}
@@ -357,24 +359,6 @@ Phase planes (Figures 2 and 4) were computed on $[0,1] \times [0,1]$ grids of 20
 ### **7.8 Reproducibility and Code Availability**
 
 All simulations used deterministic ODE integration with fixed parameters. There is no stochasticity in the core model. Numerical code, figure-generation scripts, and processed data outputs will be made available upon publication and can be reproduced directly using the parameter sets and methods described above.
-
-Below is the **Apex Advisor reasoning journey** followed by a **manuscript-ready Supplementary Results section**, focused on:
-
-* **Why earlier architectures (single-nullcline-cross models like “EC1/EC2”) failed**
-* **Why the final model succeeds**
-* **Parameter sweep results that confirm robustness**
-* **Absence of biologically meaningful hysteresis**
-
-This text assumes your Supplement will include:
-
-* Nullcline plots for the earlier models
-* Their bifurcation scans (showing monostability)
-* Parameter sweeps for the final model
-* Optional continuation outputs (the grid-based approach you already implemented)
-
-Everything below is written as if it appears in the Supplement of a preprint.
-
----
 
 ## **Supplementary Results**
 

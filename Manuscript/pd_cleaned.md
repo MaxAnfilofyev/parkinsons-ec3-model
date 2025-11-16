@@ -466,7 +466,7 @@ This means that once the system collapses into the low-energy attractor, reducin
 2. Why pruning does not rescue already failing neurons,
 3. Why collapse proceeds inexorably once initiated.[15–17,21–23](#references)
 
-**Supplementary Figure S7. Full continuation of equilibria showing right fold beyond biological range.**
+![Supplementary Figure S7. Full continuation of equilibria showing right fold beyond biological range.](/Stage_S7_FullContinuation/latest_run/supp_S7_full_bifurcation_E_vs_A.png) **Supplementary Figure S7. Full continuation of equilibria showing right fold beyond biological range.**
 The complete bifurcation diagram reveals a right-hand fold at axonal loads larger than those observed in dopaminergic neurons, implying that the collapsed low-energy state remains stable throughout the physiological range of $A$.
 
 ---
